@@ -1,5 +1,6 @@
 {
 	"token":"YOUR BOT TOKEN HERE",
+    "commandprefix":"/",
 	"ip":"YOUR SERVER IP HERE",
 	"port":"YOUR SERVER PORT HERE"
 }

@@ -4,7 +4,6 @@ const chalk = require('chalk'); //Require chalk -- a package that allows us to s
 var escape = require('markdown-escape') // Require markdown-escape -- a package that allows us to escape markdown formatting (preventing things like tildes in playernames from showing up in discord as strikethroughs)
 const client = new Discord.Client();
 const settings = require('./config.json'); //Location of config file
-const prefix = "/"; //Command prefix
 let onlinePlayers = [];
 
 
@@ -53,10 +52,10 @@ client.on("ready", () => {
 //Command Handling
 client.on('message', message => {
 
-    if (!message.content.startsWith(prefix)) return; //If the message doesn't start with our prefix, ignore it
+    if (!message.content.startsWith(settings.commandprefix)) return; //If the message doesn't start with our prefix, ignore it
     if (message.author.bot) return;{ //If the author of the message is a bot (including us)-- ignore it
 
-const args = message.content.slice(prefix.length).trim().split(/ +/g);
+const args = message.content.slice(settings.commandprefix.length).trim().split(/ +/g);
 const command = args.shift().toLowerCase();
 
 //log the above
