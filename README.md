@@ -9,9 +9,9 @@ A simple Discord.js bot that pings Minecraft servers using the [mc-ping-updated]
 - Replace `"YOUR BOT TOKEN HERE"` with your bot token. *Keep it secret. Keep it safe.*
 - Replace `"/"` with your preferred command prefix or leave it alone to use `/`
 - Replace `"YOUR SERVER IP HERE"` with the IP address of the Minecraft server you want to poll. Domains that redirect to IP addresses ("play.exampleserver.net") will also work.
--- Replace `"YOUR SERVER PORT HERE"` with the port number of the Minecraft server you want to poll.
-
-Run the `/crash` command to stop the bot, or stop and start it again manually. The bot should begin polling the Minecraft server the next time it starts.
+- Replace `"YOUR SERVER PORT HERE"` with the port number of the Minecraft server you want to poll.
+- The bot should begin polling the Minecraft server the next time it starts.
+- (Optional/Linux-only) Start a new screen with `screen -S statusbot` and then, in that screen, issue the command `./start.sh`to kick off the start script. You can now detach from the screen with `ctrl-a + ctrl-d` and the script will keep running in the background, restarting the bot every time it stops.
 
 # Default Commands
 - `/help` (aliases: `/commands`, `/list`, `/bot`) - List the other commands
