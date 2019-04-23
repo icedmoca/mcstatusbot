@@ -18,5 +18,5 @@ The bot should begin polling the Minecraft server the next time it starts.
 
 # Default Commands
 - `/help` (aliases: `/commands`, `/list`, `/bot`) - List the other commands
-- `/status` - Manually poll the Minecraft server whose IP address and port are listed in `config.json`, returning the server's version and a list of any online players
+- `/status` (aliases: `/server`) - Manually poll the Minecraft server whose IP address and port are listed in `config.json`, returning the server's version and a list of any online players
 - `/crash` - Stop the bot. If you're using a looping `start.sh` script like the one provided, this effectively restarts the bot.
