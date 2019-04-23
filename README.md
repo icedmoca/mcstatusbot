@@ -1,5 +1,5 @@
 # mcstatusbot
-A simple Discord.js bot that pings Minecraft servers using the [mc-ping-updated](https://www.npmjs.com/package/mc-ping-updated) node module.
+A simple [Discord.js](https://www.npmjs.com/package/discord.js) bot that pings [Minecraft](https://minecraft.gamepedia.com) servers using the [mc-ping-updated](https://www.npmjs.com/package/mc-ping-updated) node module.
 
 # Setup & Configuration
 Get the bot running:
