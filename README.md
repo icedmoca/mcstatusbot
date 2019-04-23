@@ -14,6 +14,7 @@ Edit the `config.json` file to provide your bot token, preferred command prefix,
 
 The bot should begin polling the Minecraft server the next time it starts.
 - (Optional/Linux-only) Start a new screen with `screen -S statusbot` and then, in that screen, issue the command `./start.sh`to kick off the start script. You can now detach from the screen with `ctrl-a + ctrl-d` and the script will keep running in the background, restarting the bot every time it stops.
+- The `statusbot` screen will then act as your bot's console, reporting the commands it gets issued and the server status via `console.log()`. To stop the bot, re-attach the `statusbot` screen using the command `screen -X statusbot` and then hitting `ctrl-c` to interrupt `start.sh`.
 
 # Default Commands
 - `/help` (aliases: `/commands`, `/list`, `/bot`) - List the other commands
