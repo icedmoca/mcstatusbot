@@ -1,11 +1,9 @@
-const Discord = require("discord.js"); //Require Discord.js -- a package that allows us to interact with Discord
-mcping = require('mc-ping-updated'); //Require mc-ping-updated -- a package that allows us to ping a Minecraft server
-const chalk = require('chalk'); //Require chalk -- a package that allows us to style console logs with color
-var escape = require('markdown-escape') // Require markdown-escape -- a package that allows us to escape markdown formatting (preventing things like tildes in playernames from showing up in discord as strikethroughs)
+const Discord = require("discord.js"); //Require Discord.js -- a module that allows us to interact with Discord
+mcping = require('mc-ping-updated'); //Require mc-ping-updated -- a module that allows us to ping a Minecraft server
+const chalk = require('chalk'); //Require chalk -- a module that allows us to style console logs with color
+var escape = require('markdown-escape') // Require markdown-escape -- a module that allows us to escape markdown formatting (preventing things like tildes in playernames from showing up in Discord as strikethroughs)
 const client = new Discord.Client();
 const settings = require('./config.json'); //Location of config file
-let onlinePlayers = [];
-
 
 function newUpdate () {
 mcping(settings.ip, settings.port, function(err, res) {
@@ -19,7 +17,7 @@ cleanDate = date.toLocaleTimeString();
         console.error(err); return;}
     else {
         if (typeof res.players.sample == 'undefined')
-            {status2 = '0 / 25';
+            {status2 = res.players.online + ' / ' + res.players.max;
         client.user.setStatus('idle')
     date = new Date();
 cleanDate = date.toLocaleTimeString();
@@ -37,25 +35,22 @@ client.user.setActivity(status2, { type: 'PLAYING' })
 }}});
 }
 
-
+//On startup:
 client.on("ready", () => {
   console.log("I am ready!");
-  client.setInterval(newUpdate,30000);
+  newUpdate() //ping the server once on startup, setting bot status
+  client.setInterval(newUpdate,settings.pingInterval);
 });
-
-
-
-
 
 
 
 //Command Handling
 client.on('message', message => {
 
-    if (!message.content.startsWith(settings.commandprefix)) return; //If the message doesn't start with our prefix, ignore it
+    if (!message.content.startsWith(settings.commandPrefix)) return; //If the message doesn't start with our prefix, ignore it
     if (message.author.bot) return;{ //If the author of the message is a bot (including us)-- ignore it
 
-const args = message.content.slice(settings.commandprefix.length).trim().split(/ +/g);
+const args = message.content.slice(settings.commandPrefix.length).trim().split(/ +/g);
 const command = args.shift().toLowerCase();
 
 //log the above
@@ -76,8 +71,6 @@ if (command === "help" || command === "commands" || command === "list" | command
        }
 
      
-
-
 //Status command handling
         else if (command === "status" || command === "server"){
 
@@ -99,7 +92,6 @@ if (typeof res.players.sample == 'undefined'){
   
   onlinePlayers.push(res.players.sample[i].name);
 };
-
 
 
 onlinePlayers = onlinePlayers.sort();
