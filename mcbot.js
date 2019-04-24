@@ -74,7 +74,7 @@ if (command === "help" || command === "commands" || command === "list" | command
 //Status command handling
         else if (command === "status" || command === "server"){
 
-mcping('cataclysm.us', 25565, function(err, res) {
+mcping(settings.ip, settings.port, function(err, res) {
     if (err) {
         // Some kind of error
         console.error(err);
@@ -97,7 +97,7 @@ if (typeof res.players.sample == 'undefined'){
 onlinePlayers = onlinePlayers.sort();
 onlinePlayers = onlinePlayers.join(', ');
 onlinePlayers = escape(onlinePlayers);
-         status2 = '**' + res.players.online + '/' + res.players.max + '**' + ' player(s) online.\n' + onlinePlayers;
+         status2 = '**' + res.players.online + '/' + res.players.max + '**' + ' player(s) online at ' + settings.ip + '.\n' + onlinePlayers;
 
 console.log('  ' + status2);
         
