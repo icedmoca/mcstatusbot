@@ -1,9 +1,11 @@
-const Discord = require("discord.js"); //Require Discord.js -- a module that allows us to interact with Discord
-mcping = require('mc-ping-updated'); //Require mc-ping-updated -- a module that allows us to ping a Minecraft server
-const chalk = require('chalk'); //Require chalk -- a module that allows us to style console logs with color
-var escape = require('markdown-escape') // Require markdown-escape -- a module that allows us to escape markdown formatting (preventing things like tildes in playernames from showing up in Discord as strikethroughs)
-const client = new Discord.Client();
+const Discord = require("discord.js")
+const mcping = require('mc-ping-updated')
+const chalk = require('chalk')
+const escape = require('markdown-escape')
+const client = new Discord.Client()
 const settings = require('./config.json'); //Location of config file
+
+var hasIcon = 'n/a'
 
 function newUpdate () {
 mcping(settings.ip, settings.port, function(err, res) {
@@ -37,8 +39,8 @@ client.user.setActivity(status2, { type: 'PLAYING' })
 
 //On startup:
 client.on("ready", () => {
-  console.log("I am ready!");
-  newUpdate() //ping the server once on startup, setting bot status
+  console.log("Ready!");
+  newUpdate() //Ping the server once on startup, setting bot status
   client.setInterval(newUpdate,settings.pingInterval);
 });
 
@@ -74,13 +76,30 @@ if (command === "help" || command === "commands" || command === "list" | command
 //Status command handling
         else if (command === "status" || command === "server"){
 
-mcping(settings.ip, settings.port, function(err, res) {
+mcping(settings.ip, settings.port, function(err, res){
     if (err) {
         // Some kind of error
-        console.error(err);
-        message.channel.send('Error getting server status.'); return
+        console.log(err);
+        message.channel.send('Error getting server status.'); return;
     } else {
-      
+        //console.log(res);
+        //console.log(res.description.extra);
+        //console.log(res.favicon)
+
+       
+        try {favicon = res.favicon.slice(22)
+
+              
+              console.log('Successfully retrieved icon')
+              hasIcon = 'yes'
+        }
+
+        catch(error){
+          console.log('Error retrieving icon')
+          hasIcon = 'no'
+        }
+        
+
         let onlinePlayers = [];
 
 
@@ -97,25 +116,41 @@ if (typeof res.players.sample == 'undefined'){
 onlinePlayers = onlinePlayers.sort();
 onlinePlayers = onlinePlayers.join(', ');
 onlinePlayers = escape(onlinePlayers);
-         status2 = '**' + res.players.online + '/' + res.players.max + '**' + ' player(s) online at ' + settings.ip + '.\n' + onlinePlayers;
+         status2 = '**' + res.players.online + '/' + res.players.max + '**' + ' player(s) online.\n' + onlinePlayers;
 
 console.log('  ' + status2);
         
   };
 
-        message.channel.send({embed: {
-                                title: 'Status:',
-                                color: 3447003,
-                                description: status2,
-                                fields: [
-                                  {
-                                    name: "Server Version:",
-                                    value: (res.version.name)
-                                  },
-                                ],
-                              
-                              }
-                            }); 
+console.log('Attempting to send embed:')
+console.log(hasIcon)
+
+if (hasIcon === 'yes'){
+const buffer = Buffer.from(favicon, 'base64')
+const serverEmbedicon = new Discord.RichEmbed()
+    .attachFile({attachment:buffer, name: 'icon.png'})
+    .setTitle('Status for ' + settings.ip + ':')
+    .setColor(3447003)
+    .setDescription(status2)
+    .setThumbnail('attachment://icon.png')
+    .addField("Server version:", res.version.name)
+    message.channel.send(serverEmbedicon);
+}
+
+else if(hasIcon === 'no'){
+  const serverEmbedNoIcon = new Discord.RichEmbed()
+    .setTitle('Status for ' + settings.ip + ':')
+    .setColor(3447003)
+    .setDescription(status2)
+    .addField("Server version:", res.version.name)
+    message.channel.send(serverEmbedNoIcon);
+}
+
+
+
+
+
+    
     }
 }, 3000);
 return;
