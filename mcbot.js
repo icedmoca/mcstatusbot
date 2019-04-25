@@ -7,35 +7,32 @@ const settings = require('./config.json'); //Location of config file
 
 var hasIcon = 'n/a'
 
+function getDate(){
+  date = new Date();
+cleanDate = date.toLocaleTimeString();
+}
+
 function newUpdate () {
 mcping(settings.ip, settings.port, function(err, res) {
+
   if (!(typeof err === 'undefined' || err === null)) {
-        client.user.setStatus('dnd');
-        status2 = 'Server offline';
-        client.user.setActivity(status2, { type: 'PLAYING' });
-      date = new Date();
-cleanDate = date.toLocaleTimeString();
+      client.user.setStatus('dnd');
+      status2 = 'Server offline';
+      client.user.setActivity(status2, { type: 'PLAYING' });
+      getDate()
       console.log((chalk.yellow('\[' + cleanDate + '\]:') + chalk.white(' Ping: ' + 'Error getting server status')));
-        console.error(err); return;}
-    else {
-        if (typeof res.players.sample == 'undefined')
-            {status2 = res.players.online + ' / ' + res.players.max;
-        client.user.setStatus('idle')
-    date = new Date();
-cleanDate = date.toLocaleTimeString();
-client.user.setActivity(status2, { type: 'PLAYING' })
-      .then(presence => console.log(chalk.cyan('\[' + cleanDate + '\]:') + chalk.white(' Ping: ' + status2)))
-      .catch(console.error); return;}
-        else {
-         status2 = res.players.online + ' / ' + res.players.max
-client.user.setStatus('online');
-date = new Date();
-cleanDate = date.toLocaleTimeString();
-client.user.setActivity(status2, { type: 'PLAYING' })
-      .then(presence => console.log(chalk.cyan('\[' + cleanDate + '\]:') + chalk.white(' Ping: ' + status2)))
-      .catch(console.error);
-}}});
-}
+      console.error(err); return;}
+
+ if (typeof res.players.sample === 'undefined') {client.user.setStatus('idle')}
+ if (!(typeof res.players.sample === 'undefined')) {client.user.setStatus('online')}
+            
+          status2 = res.players.online + ' / ' + res.players.max;
+          getDate()
+          client.user.setActivity(status2, { type: 'PLAYING' })
+          .then(presence => console.log(chalk.cyan('\[' + cleanDate + '\]:') + chalk.white(' Ping: ' + status2)))
+          .catch(console.error);
+        })
+      }
 
 //On startup:
 client.on("ready", () => {
@@ -88,14 +85,10 @@ mcping(settings.ip, settings.port, function(err, res){
 
        
         try {favicon = res.favicon.slice(22)
-
-              
-              console.log('Successfully retrieved icon')
               hasIcon = 'yes'
         }
 
         catch(error){
-          console.log('Error retrieving icon')
           hasIcon = 'no'
         }
         
@@ -122,9 +115,6 @@ console.log('  ' + status2);
         
   };
 
-console.log('Attempting to send embed:')
-console.log(hasIcon)
-
 if (hasIcon === 'yes'){
 const buffer = Buffer.from(favicon, 'base64')
 const serverEmbedicon = new Discord.RichEmbed()
@@ -145,10 +135,6 @@ else if(hasIcon === 'no'){
     .addField("Server version:", res.version.name)
     message.channel.send(serverEmbedNoIcon);
 }
-
-
-
-
 
     
     }
