@@ -51,7 +51,7 @@ client.on('message', message => {
         const command = args.shift().toLowerCase();
         //log the above
         console.log('Command \'' + message.content + '\' issued by ' + message.member.user.tag);
-        console.log('Args: ' + args);
+       // console.log('Args: ' + args);
         //Help command handling
         if (command === "help" || command === "commands" || command === "list" | command ===
             "bot") {
@@ -73,6 +73,12 @@ client.on('message', message => {
                     message.channel.send('Error getting server status.');
                     return;
                 } else {
+                    console.log('RES:', res)
+                    //console.log('players:', res.players)
+                    //console.log('sample:', res.players.sample)
+                    
+                    //console.log('DESC:', res.description)
+                    //console.log('EXTRA:', res.description.extra)
                     try {
                         favicon = res.favicon.slice(22)
                         hasIcon = 'yes'
@@ -89,9 +95,11 @@ client.on('message', message => {
                         onlinePlayers = onlinePlayers.sort();
                         onlinePlayers = onlinePlayers.join(', ');
                         onlinePlayers = escape(onlinePlayers);
+                        onlinePlayers = onlinePlayers.replace(/\u00A7[0-9A-FK-OR]|\\n/ig,'');
                         serverStatus = '**' + res.players.online + '/' + res.players.max +
-                            '**' + ' player(s) online.\n' + onlinePlayers;
-                        console.log('  ' + serverStatus);
+                            '**' + ' player(s) online.\n\n' + onlinePlayers;
+                        
+                        console.log('Server Status', serverStatus);
                     };
                     if (hasIcon === 'yes') {
                         const buffer = Buffer.from(favicon, 'base64')
@@ -111,7 +119,7 @@ client.on('message', message => {
                 }
             }, 3000);
             return;
-        } else if (command === "crash") { process.exit(0); } else return;
+        } else if (command === "crash") {client.destroy(); process.exit(0); } else return;
     }
 })
 client.login(settings.token);
