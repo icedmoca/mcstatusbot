@@ -1,7 +1,7 @@
 # mcstatusbot
 A simple [Discord.js](https://www.npmjs.com/package/discord.js) bot that pings [Minecraft](https://minecraft.gamepedia.com) servers using the [mc-ping-updated](https://www.npmjs.com/package/mc-ping-updated) node module.
 
-This bot is currently compatible with post-1.8 vanilla and Spigot servers. Other types of servers are partially supported with varying degrees of comaptbility.
+This bot is currently compatible with post-1.8 vanilla, Spigot, Waterfall, and Bungeecord servers. Other types of servers are partially supported with varying degrees of comaptbility.
 
 # Setup & Configuration
 - Follow a Discord.js bot quickstart guide ([An Idiot's Guide](https://anidiots.guide/getting-started/getting-started-long-version), [DevDungeon](https://www.devdungeon.com/content/javascript-discord-bot-tutorial), etc.) up to the step where you have a functioning bot and bot user, then replace your `mybot.js` file with `mcbot.js` (or just copy and paste the code from the latter into the former)
