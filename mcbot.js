@@ -6,6 +6,8 @@ const client = new Discord.Client()
 const settings = require('./config.json');
 var hasIcon = 'n/a'
 
+pingFrequency = (settings.pingInterval * 1000)
+
 function getDate() {
     date = new Date();
     cleanDate = date.toLocaleTimeString();
@@ -37,7 +39,7 @@ function getServerStatus() {
 client.on("ready", () => {
     console.log("Ready!");
     getServerStatus()
-    client.setInterval(getServerStatus, settings.pingInterval);
+    client.setInterval(getServerStatus, pingFrequency);
 });
 
 //Command Handling
