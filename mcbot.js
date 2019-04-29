@@ -7,6 +7,7 @@ const settings = require('./config.json');
 var hasIcon = 'n/a'
 
 pingFrequency = (settings.pingInterval * 1000)
+embedColor = ("0x" + settings.embedColor)
 
 function getDate() {
     date = new Date();
@@ -55,14 +56,13 @@ client.on('message', message => {
         //Help command handling
         if (command === "help" || command === "commands" || command === "list" | command ===
             "bot") {
+
             console.log('Issuing help message.');
-            message.channel.send({
-                embed: {
-                    color: 3447003,
-                    title: 'Commands:',
-                    description: '**/status** - The current status and player count of your server \n**/crash** - Restart the bot'
-                }
-            });
+            const helpEmbed = new Discord.RichEmbed()
+                            .setTitle('Commands:')
+                            .setColor(embedColor)
+                            .setDescription('**/status** - The current status and player count of your server \n**/crash** - Restart the bot')
+                        message.channel.send(helpEmbed);
             return;
         }
         //Status command handling
@@ -105,13 +105,13 @@ client.on('message', message => {
                         const buffer = Buffer.from(favicon, 'base64')
                         const serverEmbedicon = new Discord.RichEmbed().attachFile({ attachment: buffer,
                             name: 'icon.png' }).setTitle('Status for ' +
-                            settings.ip + ':').setColor(3447003).setDescription(
+                            settings.ip + ':').setColor(embedColor).setDescription(
                             serverStatus).setThumbnail('attachment://icon.png').addField(
                             "Server version:", res.version.name)
                         message.channel.send(serverEmbedicon);
                     } else if (hasIcon === 'no') {
                         const serverEmbedNoIcon = new Discord.RichEmbed().setTitle(
-                                'Status for ' + settings.ip + ':').setColor(3447003)
+                                'Status for ' + settings.ip + ':').setColor(embedColor)
                             .setDescription(serverStatus).addField("Server version:",
                                 res.version.name)
                         message.channel.send(serverEmbedNoIcon);
@@ -119,7 +119,7 @@ client.on('message', message => {
                 }
             }, 3000);
             return;
-        } else if (command === "crash") {client.destroy(); process.exit(0); } else return;
+        } else if (command === "crash") {process.exit(0); } else return;
     }
 })
 client.login(settings.token);
