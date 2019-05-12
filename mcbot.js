@@ -50,9 +50,10 @@ client.on('message', message => {
         const args = message.content.slice(settings.commandPrefix.length).trim().split(
             / +/g);
         const command = args.shift().toLowerCase();
-        //log the above
         console.log('Command \'' + message.content + '\' issued by ' + message.member.user.tag);
-       // console.log('Args: ' + args);
+
+
+
         //Help command handling
         if (command === "help" || command === "commands" || command === "list" | command ===
             "bot") {
@@ -64,6 +65,8 @@ client.on('message', message => {
                             .setDescription('**/status** - The current status and player count of your server \n**/crash** - Restart the bot')
                         message.channel.send(helpEmbed);
             return;
+
+            
         }
         //Status command handling
         else if (command === "status" || command === "server" || command === "online") {
@@ -92,10 +95,7 @@ client.on('message', message => {
                         for (var i = 0; i < res.players.sample.length; i++) {
                             onlinePlayers.push(res.players.sample[i].name);
                         };
-                        onlinePlayers = onlinePlayers.sort();
-                        onlinePlayers = onlinePlayers.join(', ');
-                        onlinePlayers = escape(onlinePlayers);
-                        onlinePlayers = onlinePlayers.replace(/\u00A7[0-9A-FK-OR]|\\n/ig,'');
+                        onlinePlayers = escape(onlinePlayers.sort().join(', ')).replace(/\u00A7[0-9A-FK-OR]|\\n/ig,'');
                         serverStatus = '**' + res.players.online + '/' + res.players.max +
                             '**' + ' player(s) online.\n\n' + onlinePlayers;
                         
