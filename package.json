@@ -27,7 +27,7 @@
   "homepage": "https://github.com/Iniquit/mcstatusbot#readme",
   "dependencies": {
     "chalk": "^2.4.2",
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.5.0",
     "markdown-escape": "^1.0.2",
     "mc-ping-updated": "^0.1.0"
   }
